@@ -45,3 +45,57 @@ atomic_tests:
       dscl . -create /Users/#{username} UniqueID "1010"
       dscl . -create /Users/#{username} PrimaryGroupID 80
       dscl . -create /Users/#{username} NFSHomeDirectory /Users/#{username}
+
+- name: Create a new user in a command prompt
+  description: |
+    Creates a new user in a command prompt
+  supported_platforms:
+    - windows
+  input_arguments:
+    username:
+      description: Username of the user to create
+      type: String
+      default: Evil Account
+  executor:
+    name: command_prompt
+    elevation_required: true
+    command: |
+      net user /add #{username}
+
+- name: Create a new user in PowerShell
+  description: |
+    Creates a new user in PowerShell
+  supported_platforms:
+    - windows
+  input_arguments:
+    username:
+      description: Username of the user to create
+      type: String
+      default: Evil Account
+  executor:
+    name: powershell
+    elevation_required: true
+    command: |
+      New-LocalUser -Name #{username} -NoPassword
+      net user /add #{username}
+
+
+- name: Create a new user in Linux with `root` UID and GID.
+  description: |
+    Creates a new user in Linux and adds the user to the `root` group. This technique was used by adversaries during the Butter attack campaign.
+  supported_platforms:
+    - linux
+  input_arguments:
+    username:
+      description: Username of the user to create
+      type: String
+      default: butter
+    password:
+      description: Password of the user to create
+      type: String
+      default: BetterWithButter
+  executor:
+    name: bash
+    command: |
+      useradd -o -u 0 -g 0 -M -d /root -s /bin/bash #{username}
+      echo "#{password}" | passwd --stdin #{username}

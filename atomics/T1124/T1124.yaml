@@ -18,11 +18,11 @@ atomic_tests:
 
   executor:
     name: command_prompt
+    elevation_required: false
     command: |
-      net time \\${computername}
+      net time \\#{computer_name}
       w32tm /tz
 
-atomic_tests:
 - name: System Time Discovery - PowerShell
   description: |
     Identify the system time via PowerShell
@@ -32,5 +32,6 @@ atomic_tests:
 
   executor:
     name: powershell
+    elevation_required: false
     command: |
-      powershell.exe Get-Date
+      Get-Date

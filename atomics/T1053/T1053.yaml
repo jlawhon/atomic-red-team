@@ -13,6 +13,7 @@ atomic_tests:
 
   executor:
     name: command_prompt
+    elevation_required: false
     command: |
       at 13:20 /interactive cmd
 - name: Scheduled task Local
@@ -33,8 +34,10 @@ atomic_tests:
 
   executor:
     name: command_prompt
+    elevation_required: false
     command: |
       SCHTASKS /Create /SC ONCE /TN spawn /TR #{task_command} /ST #{time}
+
 - name: Scheduled task Remote
   description: |
       Create a task on a remote system
@@ -65,4 +68,4 @@ atomic_tests:
   executor:
     name: command_prompt
     command: |
-      SCHTASKS /Create /S #{target} /RU #{UserName} /RP #{Password} /TN "Atomic task" /TR "#{task_command}" /SC daily /ST #{time}
+      SCHTASKS /Create /S #{target} /RU #{user_name} /RP #{password} /TN "Atomic task" /TR "#{task_command}" /SC daily /ST #{time}

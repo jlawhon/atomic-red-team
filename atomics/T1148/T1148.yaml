@@ -1,5 +1,5 @@
 ---
-attack_technique: T1146
+attack_technique: T1148
 display_name: HISTCONTROL
 
 atomic_tests:
@@ -22,7 +22,7 @@ atomic_tests:
 
 - name: Mac HISTCONTROL
   description: |
-    xxx
+    
   supported_platforms:
     - macos
     - linux
